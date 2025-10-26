@@ -1,8 +1,8 @@
 'use strict'
-const assert = require('assert');
-const { debuglog } = require('util');
+// const assert = require('assert');
+// const { debuglog } = require('util');
 
-const debug = debuglog('binary-xml');
+// const debug = debuglog('binary-xml');
 
 const NodeType = {
   ELEMENT_NODE: 1,
@@ -311,7 +311,7 @@ class BinaryXmlParser {
         break
       default: {
         const type = dataType.toString(16)
-        debug(`Not sure what to do with typed value of type 0x${type}, falling \
+        this.debug && console.debug(`Not sure what to do with typed value of type 0x${type}, falling \
 back to reading an uint32.`)
         typedValue.value = this.readU32()
         typedValue.type = 'unknown'
@@ -323,7 +323,7 @@ back to reading an uint32.`)
     if (this.cursor !== end) {
       const type = dataType.toString(16)
       const diff = end - this.cursor
-      debug(`Cursor is off by ${diff} bytes at ${this.cursor} at supposed end \
+      this.debug && console.debug(`Cursor is off by ${diff} bytes at ${this.cursor} at supposed end \
 of typed value of type 0x${type}. The typed value started at offset ${start} \
 and is supposed to end at offset ${end}. Ignoring the rest of the value.`)
       this.cursor = end
@@ -351,7 +351,7 @@ and is supposed to end at offset ${end}. Ignoring the rest of the value.`)
         this.debug && console.debug('byteLength:', byteLength)
         var value = this.buffer.toString(encoding, this.cursor, (this.cursor += byteLength))
         this.debug && console.debug('value:', value)
-        assert.equal(this.readU8(), 0, 'String must end with trailing zero')
+        // assert.equal(this.readU8(), 0, 'String must end with trailing zero')
         this.debug && console.groupEnd()
         return value
       case 'ucs2':
@@ -361,7 +361,7 @@ and is supposed to end at offset ${end}. Ignoring the rest of the value.`)
         this.debug && console.debug('byteLength:', byteLength)
         value = this.buffer.toString(encoding, this.cursor, (this.cursor += byteLength))
         this.debug && console.debug('value:', value)
-        assert.equal(this.readU16(), 0, 'String must end with trailing zero')
+        // assert.equal(this.readU16(), 0, 'String must end with trailing zero')
         this.debug && console.groupEnd()
         return value
       default:
@@ -658,7 +658,7 @@ and is supposed to end at offset ${end}. Ignoring the rest of the value.`)
       if (this.cursor !== end) {
         const diff = end - this.cursor
         const type = header.chunkType.toString(16)
-        debug(`Cursor is off by ${diff} bytes at ${this.cursor} at supposed \
+        this.debug && console.debug(`Cursor is off by ${diff} bytes at ${this.cursor} at supposed \
 end of chunk of type 0x${type}. The chunk started at offset ${start} and is \
 supposed to end at offset ${end}. Ignoring the rest of the chunk.`)
         this.cursor = end

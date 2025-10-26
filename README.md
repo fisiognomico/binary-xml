@@ -1,11 +1,9 @@
-## binary-xml [![binary-xml](https://img.shields.io/npm/v/binary-xml.svg)](https://npmjs.org/binary-xml)
-
-> Read and Parse Binary XML in Node.js
+> Read and Parse Binary XML in the browser.
 
 ### Installation
 
 ```bash
-$ npm install binary-xml
+$ npm install binary-xml-js
 ```
 
 ### Example
